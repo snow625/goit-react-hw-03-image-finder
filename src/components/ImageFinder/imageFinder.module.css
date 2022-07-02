@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.imageFinder {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  padding-bottom: 24px;
+}
+.error {
+  font-size: 50px;
+  font-weight: 500;
+}
+
+.notFind {
+  font-size: 35px;
+  font-weight: 500;
+}

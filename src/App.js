@@ -1,7 +1,9 @@
-import Searchbar from "./components/Searchbar";
+import ImageFinder from "./components/ImageFinder";
+
+import "./index.css";
 
 function App() {
-  return <Searchbar />;
+  return <ImageFinder />;
 }
 
 export default App;
