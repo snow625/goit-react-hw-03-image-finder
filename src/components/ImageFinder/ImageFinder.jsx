@@ -41,7 +41,7 @@ class ImageFinder extends Component {
     }
   }
 
-  setQwerInState = (value) => {
+  setQweryInState = (value) => {
     const { qwery } = this.state;
     if (value !== qwery) {
       this.setState({ qwery: value, page: 1, totalPages: 0, items: [] });
@@ -49,10 +49,24 @@ class ImageFinder extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { page: prevPage, qwery: prevQwery } = prevState;
-    const { page: nextPage, qwery: nextQwery } = this.state;
+    const { page: prevPage, qwery: prevQwery, items: prevItems } = prevState;
+    const { page: nextPage, qwery: nextQwery, items: nextItems } = this.state;
     if (prevPage !== nextPage || prevQwery !== nextQwery) {
       this.getImgItemsByQwery();
+    }
+    // Плавный скрол при добавлении новых карточек
+    if (
+      prevItems.length > 0 &&
+      prevItems.length !== nextItems.length &&
+      nextItems.length
+    ) {
+      const { height: cardHeight } = document
+        .querySelector("ul")
+        .firstElementChild.getBoundingClientRect();
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+      });
     }
   }
 
@@ -89,7 +103,7 @@ class ImageFinder extends Component {
   };
 
   render() {
-    const { setQwerInState, setNextPage, setModalImg, closeModal } = this;
+    const { setQweryInState, setNextPage, setModalImg, closeModal } = this;
     const {
       items,
       modalImg,
@@ -103,12 +117,12 @@ class ImageFinder extends Component {
 
     const notFound = !totalPages && qwery && !loader && !error;
     const noWrapper = error || loader || notFound;
-    const noGallary = !notFound && qwery;
+    const noGallary = !notFound && qwery && !error;
     const noButton = totalPages - page > 0;
 
     return (
       <div className={style.imageFinder}>
-        <Searchbar onSubmit={setQwerInState} />
+        <Searchbar onSubmit={setQweryInState} />
 
         {noGallary && <ImageGallery items={items} onClick={setModalImg} />}
 
