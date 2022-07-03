@@ -47,42 +47,16 @@ class ImageFinder extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { page: prevPage, qwery: prevQwery, items: prevItems } = prevState;
-    const { page: nextPage, qwery: nextQwery, items: nextItems } = this.state;
+  componentDidUpdate(prevProps, prevState) {
+    const { page: prevPage, qwery: prevQwery } = prevState;
+    const { page: nextPage, qwery: nextQwery } = this.state;
     if (prevPage !== nextPage || prevQwery !== nextQwery) {
       this.getImgItemsByQwery();
     }
-    if (
-      prevItems.length > 0 &&
-      prevItems.length !== nextItems.length &&
-      nextItems.length
-    ) {
-      window.scrollBy({
-        top: snapshot,
-        behavior: "smooth",
-      });
-    }
+   
   }
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    const { items: nextItems } = this.state;
-    const { items: prevItems } = prevState;
-    // Плавный скрол при добавлении новых карточек
-    if (
-      prevItems.length > 0 &&
-      prevItems.length !== nextItems.length &&
-      nextItems.length
-    ) {
-      const { height: cardHeight } = document
-        .querySelector("ul")
-        .firstElementChild.getBoundingClientRect();
-
-      return cardHeight * 2;
-    }
-    return null;
-  }
-
+ 
   setNextPage = () => {
     this.setState((prevState) => {
       const { page: prevPage } = prevState;
